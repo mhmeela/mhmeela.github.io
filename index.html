@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mishkatul Hoque Meela | Portfolio</title>
+<meta name="description" content="CSE undergraduate at AIUB. Research in NLP and medical imaging, web development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--butter:#FFF7B4;--butter-deep:#FFE97A;--gold:#E3B505;--paper:#FFFCE8;--card:#ffffff;--ink:#2b2410;--muted:#6b5f3a;--line:#eadf9a;--link:#7a5b00;
+--done:#1d6b3c;--wip:#8a5a00;--proto:#4b4f9c;
+--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:"Source Sans 3","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4rem}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--body)}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+/* top bar */
+header{position:fixed;inset:0 0 auto;z-index:20;background:rgba(255,247,180,.92);backdrop-filter:blur(8px);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line)}
+header .in{max-width:980px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:.7rem 1.5rem;gap:1rem}
+header b{font:800 1.05rem var(--display);color:var(--ink)}
+header nav{display:flex;gap:1.1rem;flex-wrap:wrap}
+header nav a{color:var(--ink);text-decoration:none;font-size:.97rem}
+header nav a:hover{color:var(--link);text-decoration:underline}
+#bar{height:3px;width:0;background:var(--ink)}
+/* hero */
+.hero{position:relative;min-height:100svh;background:radial-gradient(1100px 600px at 80% 0%,var(--butter-deep) 0%,transparent 60%),var(--butter);color:var(--ink);display:flex;align-items:flex-end;overflow:hidden}
+#net{position:absolute;inset:0;width:100%;height:100%}
+.hero .in{position:relative;z-index:1;pointer-events:none;max-width:980px;margin:0 auto;width:100%;padding:6rem 1.5rem 2.5rem}
+.hero a,.hero button{pointer-events:auto}
+.hero h1{font:800 clamp(2.6rem,8vw,5.8rem)/.98 var(--display);margin:0 0 .8rem;letter-spacing:-.02em}
+.roleline{font:500 clamp(1.1rem,2.6vw,1.6rem) var(--display);color:var(--link);min-height:2.2rem;margin:0 0 .6rem}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--ink);margin-left:3px;vertical-align:-.15em;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.hero .lead{max-width:56ch;color:#4a4020;margin:0 0 1.3rem}
+.btn{display:inline-block;background:var(--ink);color:var(--butter);padding:.6rem 1.1rem;border-radius:6px;text-decoration:none;font:600 1rem var(--body);border:0;cursor:pointer;margin:0 .5rem .5rem 0}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.stats{display:flex;gap:2.2rem;flex-wrap:wrap;margin:1rem 0 .8rem}
+.stats div{min-width:5rem}
+.stats strong{display:block;font:800 2.2rem/1 var(--display);color:var(--ink)}
+.stats span{font-size:.93rem;color:var(--muted)}
+.hint{font-size:.93rem;color:var(--muted);margin:0}
+/* sections */
+.wrap{max-width:980px;margin:0 auto;padding:4.5rem 1.5rem 0}
+h2{font:800 clamp(1.7rem,4vw,2.3rem)/1.1 var(--display);margin:0 0 1.4rem;letter-spacing:-.01em}
+h2::after{content:"";display:block;width:56px;height:5px;background:var(--gold);margin-top:.6rem;border-radius:3px}
+h3{font:800 1.2rem/1.3 var(--display);margin:.3rem 0 .2rem}
+.about p{max-width:none;line-height:1.7}
+.about .big{font-size:1.25rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.1rem 1.2rem;transition:border-color .2s}
+.card:hover{border-color:var(--gold)}
+.card[hidden]{display:none}
+.meta{color:var(--muted);font-size:.96rem;margin:0 0 .5rem}
+.tag{display:inline-block;font-size:.85rem;font-weight:600;padding:.05rem .6rem;border-radius:99px;border:1.5px solid currentColor}
+.done,.accepted{color:var(--done)}.wip,.review{color:var(--wip)}.proto{color:var(--proto)}
+.result{border-left:4px solid var(--gold);padding:.2rem 0 .2rem .8rem;margin:.6rem 0}
+.result small{display:block;color:var(--muted);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0;padding:0;list-style:none}
+.chips li{background:var(--butter);border:1px solid var(--line);border-radius:6px;padding:0 .55rem;font-size:.9rem}
+.tog{background:none;border:0;color:var(--link);font:600 .98rem var(--body);cursor:pointer;padding:.2rem 0}
+.tog::after{content:" +"}
+.open .tog::after{content:" \2212"}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease}
+.open .more{grid-template-rows:1fr}
+.more>div{overflow:hidden}
+.more p{margin:.4rem 0}
+.link{margin-right:1rem;font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.1rem}
+.filters button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:.25rem .9rem;font:600 .95rem var(--body);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--butter);border-color:var(--ink)}
+.stack{display:grid;gap:1rem}
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.4rem 2rem}
+.skills h3{font-size:1.05rem;margin-bottom:.4rem}
+.sk{margin:.5rem 0}
+.sk div{display:flex;justify-content:space-between;gap:1rem;font-size:.98rem}
+.sk em{font-style:normal;color:var(--muted);font-size:.9rem;white-space:nowrap}
+.bar{height:7px;background:var(--line);border-radius:4px;margin-top:.2rem;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--gold);transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.in-view .bar i{width:var(--w)}
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.rv.in-view{opacity:1;transform:none}
+.certs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.cert{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:0;cursor:pointer;overflow:hidden;font:inherit;color:inherit;transition:border-color .2s}
+.cert:hover{border-color:var(--gold)}
+.cert .cover{position:relative;height:150px;background:var(--butter);display:flex;align-items:center;justify-content:center;font-size:2.6rem}
+.cert .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cert .body{padding:.9rem 1.1rem 1.1rem}
+.cert h3{margin:0 0 .2rem}
+.cert .count{color:var(--link);font-weight:600;font-size:.95rem}
+#lb{position:fixed;inset:0;z-index:50;background:rgba(43,36,16,.9);display:none;align-items:center;justify-content:center;padding:3.5rem 1rem 1rem}
+#lb.open{display:flex}
+.lb-box{max-width:min(1000px,100%);max-height:100%;display:flex;flex-direction:column;gap:.6rem;align-items:center}
+.lb-box h3{color:#fff;margin:0}
+.lb-img{max-width:100%;max-height:68vh;border-radius:6px;background:#fff;object-fit:contain}
+.lb-cap,#lbcount{color:#fff;text-align:center;margin:0}
+.lb-bar{display:flex;gap:.8rem;align-items:center;justify-content:center}
+.lb-btn{background:var(--butter);color:var(--ink);border:0;border-radius:6px;padding:.5rem .9rem;font:600 1rem var(--body);cursor:pointer}
+.lb-btn[disabled]{opacity:.4;cursor:default}
+.lb-close{position:absolute;top:calc(.8rem + env(safe-area-inset-top,0px));right:1rem}
+@media (max-width:760px){.certs{grid-template-columns:minmax(0,1fr)}}
+.about p,.card p,.more p,.result,#contactbody p{text-align:justify;text-justify:inter-word;-webkit-hyphens:auto;hyphens:auto}
+.card p.meta{text-align:left;hyphens:none}
+mark.ph{background:#ffc9b8;color:#5a1f0a;padding:0 .15em;border-radius:3px}
+footer{max-width:980px;margin:4rem auto 0;padding:1.5rem;color:var(--muted);font-size:.93rem;border-top:1px solid var(--line)}
+@media (max-width:760px){.grid,.skills{grid-template-columns:minmax(0,1fr)}header nav{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1;transform:none;transition:none}.bar i{transition:none}.caret{animation:none}.more{transition:none}}
+@media (max-width:520px){.about p,.card p,.more p,.result,#contactbody p{text-align:left}}
+</style>
+</head>
+<body>
+<header><div class="in"><b id="hname"></b>
+<nav><a href="#about">About</a><a href="#research">Research</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#certificates">Certificates</a><a href="#contact">Contact</a></nav></div><div id="bar"></div></header>
+
+<section class="hero" id="hero">
+  <canvas id="net" aria-hidden="true"></canvas>
+  <div class="in">
+    <h1 id="name"></h1>
+    <p class="roleline"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
+    <p class="lead" id="herolead"></p>
+    <div><a class="btn" href="#research">See my research</a><a class="btn ghost" id="cvbtn" href="#">Download CV</a></div>
+    <div class="stats" id="stats"></div>
+    <p class="hint">Move your pointer over the network. Click a topic to filter my projects.</p>
+  </div>
+</section>
+
+<main>
+<div class="wrap rv about" id="about"><h2>About</h2><div id="aboutbody"></div></div>
+<div class="wrap" id="research"><h2>Research and publications</h2><div class="stack" id="researchbody"></div></div>
+<div class="wrap" id="projects"><h2>Projects</h2><div class="filters" id="filters"></div><div class="grid" id="projectbody"></div></div>
+<div class="wrap rv" id="skills"><h2>Skills</h2><div class="skills" id="skillbody"></div></div>
+<div class="wrap rv" id="education"><h2>Education</h2><div class="stack" id="edubody"></div></div>
+<div class="wrap rv" id="certificates"><h2>Certificates</h2><p class="meta">Click a card to view the certificates.</p><div class="certs" id="certbody"></div></div>
+<div class="wrap rv" id="contact"><h2>Contact</h2><div id="contactbody"></div></div>
+</main>
+<footer id="foot"></footer>
+
+
+<div id="lb" role="dialog" aria-modal="true" aria-labelledby="lbtitle">
+  <button class="lb-btn lb-close" id="lbclose" type="button">Close</button>
+  <div class="lb-box">
+    <h3 id="lbtitle"></h3>
+    <img id="lbimg" class="lb-img" alt="">
+    <p class="lb-cap" id="lbcap"></p>
+    <div class="lb-bar"><button class="lb-btn" id="lbprev" type="button">Previous</button><span id="lbcount"></span><button class="lb-btn" id="lbnext" type="button">Next</button></div>
+  </div>
+</div>
+
+
+<script>
+/* =====================================================================
+   EDIT ONLY THIS BLOCK. The whole page is built from DATA.
+   - Text in [square brackets] is a placeholder, highlighted yellow.
+   - Set a link to "" to hide it. Copy a { ... } block to add an item,
+     delete a block to remove one. Keep the commas between blocks.
+   - "nodes" are the labels floating in the hero network. Any node whose
+     name matches a project "tags" entry works as a click-to-filter.
+   - When finished, set HIGHLIGHT_PLACEHOLDERS to false.
+   ===================================================================== */
+const HIGHLIGHT_PLACEHOLDERS = true;
+
+const DATA = {
+  profile: {
+    name: "Mishkatul Hoque Meela",
+    roles: ["research on various domains", "develop desktop apps and websites", "write papers and present them"],
+    heroLead: "CSE undergraduate with research experience in ML and AI in different subdomains, and hands-on desktop application and web development experience. Seeking an internship to apply ML and web skills to real problems.",
+    cv: "assets/CV-Mishkatul Hoque Meela.pdf",
+    location: "Dhaka, Bangladesh",
+    email: "mishkatulhoquemeela@gmail.com",
+    linkedin: "https://www.linkedin.com/in/mishkatulhoque-meela",
+    github: "[https://github.com/your-username]"
+  },
+  /* counters in the hero: n = number, dec = decimals (optional) */
+  stats: [
+    { n: 3.82, dec: 2, label: "CGPA" },
+    { n: 3, label: "Dean's Award" },
+    { n: 2, label: "papers in publication proceedings" },
+    { n: 3, label: "conference presentations given" }
+  ],
+  nodes: ["NLP", "Bangla", "Healthcare", "Medical imaging", "Explainable AI", "Machine learning", "Web", "Agriculture", "Data analysis", "Research", "Sustainability", "Recommendation"],
+    about: {
+    lead: "I’m a final-year CSE student at AIUB. I like research, building web pages, Bangla poetry and a good game, and I’m always trying to learn the next thing.",
+    paragraphs: [
+      "I got into research because of two of my teachers. Both are women whose work is recognized internationally, and both work incredibly hard. Watching them build careers while also looking after life at home made me think: if they can do all that, I can at least try. I was lucky to work under both of them, and I’m still grateful.",
+      "Another teacher is the reason I love web development. He taught code slowly and calmly, and he was so excited about it that it was impossible not to catch it. And I presented a paper at an IEEE conference because of the patience of my Data Science instructor, who kept guiding me until the work was ready. They taught me to keep trying and never lose hope, and I try to do that every day.",
+      "I’ll be honest about how I work: I’m not a coding wizard. I plan the approach, understand the data, run the experiments and make sure I can explain every result. I use AI tools to write code faster, then I read it, test it and fix it. HTML, CSS and JavaScript are where I feel most at home. So far, that has meant two papers in conference proceedings and three conference presentations.",
+      "Outside of studies I read a lot, mostly Bangla classic literature and poetry, and I play games on both my phone and my PC. Not an obvious pair, but I enjoy both. Right now I’m looking for an internship in web development, data and AI, or research, whichever teaches me the most. After graduation I’m keeping industry and academia both open. What I know for sure is that I don’t want a perfect, repeating routine. I want days that feel a little different from the one before, and plenty to learn."
+    ]
+  
+  },
+  /* status: "Accepted", "Published", "Under review", "In preparation" */
+  research: [
+    { title: "A Statistical Analysis of Bangladesh's Textile Sector: Unraveling the Threads of the Economy", venue: "3rd International Conference on Textile Science and Engineering (ICTSE 2025), BUTEX, Dhaka, Bangladesh" , year: "24 May 2025", status: "Accepted", role: "Author and presenter",
+      problem: "Bangladesh’s textile industry serves as the cornerstone of its national economy, contributing significantly to GDP, employment, and foreign exchange earnings. As of recent trade statistics, the sector accounts for over 80% of the country’s total exports, making it the single largest contributor to Bangladesh’s export earnings and one of the most labor-intensive industries in the nation. However, despite these achievements, the textile sector in Bangladesh faces several persistent and emerging challenges like heavy reliance on imported raw materials, rising concerns over environmental sustainability, wage inequality across gender and roles, inadequate backward linkages etc. This study fills a significant gap in textile research by combining economic analysis with public perception and demographic perspectives, which are often overlooked in earlier works. ",
+      method: "this study was conducted via a survey-based approach, targeting a diverse group of participants with varying levels of familiarity with the textile sector. The survey was designed to capture both quantitative and qualitative data, focusing on participants' awareness of the sector's economic contributions, their perceptions of sustainability practices, and their understanding of export diversification. Statistical analyses were performed to identify correlations between demographic factors and perceptions of the textile industry.",
+      result: "The results reveal a significant relationship (p < .001) between familiarity with the textile sector and recognition of its export contributions, with highly familiar participants identifying ready-made garments (77.6%) as the main export.",
+      findings: "77.6% of respondents very familiar with the textile sector correctly identified RMG as the primary export, while those less familiar had diverse responses. 55.4% of participants perceived the industry as a stable employment source, with business owners showing the highest confidence. 55.4% of participants perceived the industry as a stable employment source, with business owners showing the highest confidence. A significant gender-based difference was found in perceptions of textile raw material suppliers with 75.3% of women identifying China as the primary supplier, compared to 52% of men. ", keywords: ["Bangladesh’s textile sector", "Sustainability concerns", "Limited export diversification", "Sustainable technologies"], links: { paper: "", slides: "", code: "", doi: "" } },
+    
+    
+    
+    
+      { title: "Predicting Employability Readiness in Bangladesh: The Role of Digital Skills and Practical Exposure in Sustainable Workforce Development", venue: "8th International Conference on Sustainable Development 2026 (ICSD 2026), United International University, United City, Madani Avenue, Badda, Dhaka 1212", year: "11–12 April 2026", status: "Accepted", role: "Co-author",   
+      problem: "Bangladesh is currently experiencing a swift growth in higher education enrollment; however, it raises doubts about whether students have the necessary skills to succeed in future workforce. The research investigates how three educational factors: curriculum relevance and practical exposure and digital skill development affect employability readiness of university students in Bangladesh.", method: "Data analysis of this study was conducted through descriptive statistics, reliability testing with Cronbach's alpha, correlation analysis, chi-square testing and multiple regression analysis in SPSS software. ", result: "The results show that participants achieved moderate overall readiness because they scored 3.22 out of 5. Digital skills proved to be the strongest factor, determining employability readiness because they had a value of .502 and p<.001.", keywords: ["Employability readiness", "Skills mismatch", "Curriculum relevance"], links: { paper: "", slides: "", code: "", doi: "" } },
+    
+    
+    
+    
+    
+      { title: "Climate Adaptation Hotspots in Bangladesh: Mapping High-Hazard, Low-Adaptation Districts in Bangladesh", venue: "8th International Conference on Sustainable Development 2026 (ICSD 2026), United International University, United City, Madani Avenue, Badda, Dhaka 1212", year: "11–12 April 2026", status: "Accepted", role: "Author and presenter",
+      problem: "Bangladesh is one of the countries which are at the most from climate change, requiring more targeted efforts to adapt properly. This study is set to find and define climate change-adaptation hotspots in Bangladesh for districts that face serious hazards but don’t have the ability to adapt well. ", method: "Secondary data from Kaggle was used here, that shows historical information from 1990 to 2025 covering all 54 districts. This study combined different indicators into composite keys to assess Hazard Index (flood impact, drought severity, and cyclone frequency) and Adaptation Index (renewable energy adoption, forest cover, and agricultural yield.", result: "vulnerability-adaptation trends in each district which shows that Sunamganj, Faridpur, Shariatpur, Comilla and total 12 districts with high hazards and low adaptation capabilities need urgent action.", findings: "In these districts, renewable energy usage and forest cover is very low respectively less than 10% and 16%. Also, their agricultural yields are also lower than the national average. Moran's I = -0.010, p = 0.454 show there is not enough concentration to prove that any hot spots have clustered patterns. So, each hot spot needs its own specific adaptation policy instead of applying the same regional solution everywhere. ", keywords: ["Climate change adaptation", "District-level vulnerability assessment", "Hazard index", "Adaptation index"], links: { paper: "", slides: "", code: "", doi: "" } },
+    
+    
+    
+    
+    
+      { title: "BanGEC: QLoRA fine-tuning and hallucination guarding for low-resource Bangla grammatical error correction", venue: "IEEE 3rd INTERNATIONAL CONFERENCE ON COMPUTING, APPLICATIONS AND SYSTEMS (COMPAS 2026), University of Dhaka, Bangladesh", year: "9-10 October, 2026", status: "Accepted", role: "Author and presenter",
+      problem: "Grammatical Error Correction (GEC) of Bangla is still a difficult task because of the lack of annotated resources and the diversity of orthographic, phonological and spacing errors.", method: "Build and evaluate a QLoRA-based Bangla GEC pipeline with an output hallucination guard, measured by exact match.", result: "On the synthetic BanGEC benchmark, QLoRA fine-tuning lifts Exact Match from 0.2% to 43.9%, and the guard reverts potentially low-fidelity or hallucinated outputs without changing EM (Exact Match).", keywords: ["Grammatical Error Correction", "Low-Resource NLP", "QLoRA", "Bangla NLP", "Hallucination Detection", "Parameter-Efficient Fine-Tuning"], links: { paper: "", slides: "", code: "", doi: "" } },
+      
+      
+      
+      { title: "AdaptRepair-Vision: Empirically Bounded-Risk Adaptive Repair for Corruption-Shifted Image Classification", venue: "International Conference on Innovations in Science, Engineering and Technology 2026 (ICISET 2026), IIUC, Kumira, Chattogram, Bangladesh", year: "November 8-10, 2026", status: "Accepted", role: "Co-author",
+      problem: "Under corruption shift, frozen classifiers make errors that could be recovered. Rejecting inputs leaves them unresolved, and naive repair can turn correct predictions into wrong ones.", method: "Architecture: accept, repair or defer. It has a post-hoc adaptive repair module (the backbone is never updated) and two separate decisions: 1)try a repair: reliability evidence, 2)accept a repair: independent verifier. For the design, it has four safeguards around every repair and they are: Normalized evidence, Calibrated router, Bounded repair, Independent verifier", result: "On the synthetic BanGEC benchmark, QLoRA fine-tuning lifts Exact Match from 0.2% to 43.9%, and the guard reverts potentially low-fidelity or hallucinated outputs without changing EM (Exact Match).", keywords: ["corruption robustness", "selective prediction", "post-hoc repair", "CIFAR-C", "Hallucination Detection"], links: { paper: "", slides: "", code: "", doi: "" } }
+  
+  
+  
+    ],
+  /* status: "done", "wip" or "proto". tags: used for filters and network nodes.
+     The first tag is also its filter group (Research, Web or Desktop). */
+  projects: [
+    { title: "PCOSNet: A Lightweight and Explainable Framework for Robust PCOS Detection", status: "accepted", type: "Research", tags: ["Research", "Healthcare", "Medical imaging", "Machine learning", "Explainable AI"],
+      summary: "A compact, explainable deep learning model for detecting PCOS from ovarian ultrasound images.",
+      built: "A lightweight attention-based convolutional network for screening PCOS in ultrasound images, built for clinics with limited computing power. The work covers image preprocessing, handling class imbalance, comparison against standard pretrained networks, and Grad-CAM++ visual explanations that show which regions drive each prediction. My role: [describe your own contribution, e.g. experiments, analysis, writing].",
+      result: "About 2 million parameters, roughly 64 times smaller than VGG16, while staying competitive with much larger models. Full results will appear in the IEEE Xplore paper.",
+      learned: "Designing for efficiency instead of only accuracy, evaluating on a leakage-controlled split, and using explainability to check that a medical model looks at the right regions.",
+      tech: ["Python", "PyTorch", "Grad-CAM++"], links: { code: "", demo: "", report: "" } },
+    
+    
+      { title: "AlmoX: Explainable Almond Leaf Disease Classification in Real-World Conditions", status: "accepted", type: "Research", tags: ["Research", "Agriculture", "Sustainability", "Machine learning", "Explainable AI"],
+      summary: "Disease classification for almond leaves photographed on real farms, deployed as a web tool.",
+      built: "A deep learning framework (EfficientNetV2-S with transfer learning) that classifies almond leaf diseases from field photos taken under natural lighting and cluttered backgrounds. It includes cross-validation, calibration checks, Grad-CAM explanations, and a web application where users upload a leaf image and get a diagnosis with a visual explanation. My role: [describe your own contribution, e.g. experiments, web app, writing].",
+      result: "96.76% accuracy on a held-out test set of real field images across eight classes. More detail will appear in the IEEE Xplore paper.",
+      learned: "Working with messy real-world data instead of lab images, checking that a model’s confidence can be trusted, and turning a trained model into a tool people can actually use.",
+      tech: ["Python", "EfficientNetV2-S", "Grad-CAM", "Gradio", "Hugging Face Spaces"], links: { code: "", demo: "", report: "" } },
+    
+    
+    { title: "Event Management Website", status: "done", type: "Web", tags: ["Web"],
+      summary: "A role-based event platform for admins, event creators and attendees.",
+      built: "Built a multi-user event website with three roles. Everyone can register, log in and out, reset their password, manage their profile and use a personalized dashboard. Attendees register for events, view event capacity, share event links by email, and rate events after taking part. Event creators create events, edit or delete their own, and send updates and notifications. Admins approve, edit or delete any event, suspend or delete users, and view counts of registrations, participation rate. Front end in HTML, CSS and JavaScript, back end in PHP with a database managed through phpMyAdmin.",
+      result: "Three user roles, each with its own permissions and dashboard.", learned: "Designing role-based access: deciding what each type of user can see and do, and how login, approvals and notifications fit together.",
+      tech: ["HTML", "CSS", "JavaScript", "PHP", "phpMyAdmin"], links: { code: "", demo: "", report: "" } },
+    
+
+    { title: "Journey of Voyager 1 (Computer Graphics)", status: "done", type: "Graphics", tags: ["Graphics"],
+      summary: "An interactive real-time OpenGL scene of an animated town and a rocket’s journey toward Saturn.",
+      built: "Built a real-time animated scene in C++ with OpenGL and GLUT. The scene has 27 objects, each drawn by its own function: houses, shops, a windmill, power plants, cars, hot air balloons, a UFO, a rocket, trees, clouds, the moon and stars. Added 13 animation and interaction functions: a rotating windmill, swaying trees, hovering clouds and land, moving cars, balloons and UFO, and a rocket on a diagonal path. Also built a day-night cycle with smooth sky color interpolation, with stars and the moon fading in and out. Keyboard keys (d, n, t, spacebar) control the lighting, and mouse clicks start and stop the cars.",
+      result: "27 objects, 13 animation and interaction functions, and an interactive day-night cycle.",
+      learned: "How a real-time render loop works: splitting a scene into reusable drawing functions, updating positions over time to animate, handling keyboard and mouse input, and interpolating colors for smooth transitions.",
+      tech: ["C++", "OpenGL", "GLUT"], links: { code: "", demo: "", report: "" } },
+
+
+    { title: "Technical Drawing with AutoCAD", status: "done", type: "Drafting", tags: ["Drafting"],
+      summary: "Civil and electrical plan drawings of a residential floor, drawn in AutoCAD.",
+      built: "Learned 2D drafting in AutoCAD and applied it in lab work and a drawing exam. Drew a civil floor plan with labelled room dimensions, walls, a lift, a lobby and stairs. Also drew electrical layouts: a conduit layout showing light-load wiring between distribution boards and points, and a fittings and fixture layout placing lights, fans, sockets and switches.",
+      result: "", learned: "Reading and producing scaled technical drawings, using layers and dimensions, and following drafting conventions for civil and electrical plans.",
+      tech: ["AutoCAD", "2D drafting", "Electrical layout"], links: { code: "", demo: "", report: "" } },
+    
+    
+    
+      { title: "Affordable Car and Motorbike Subscription System (SQT)", status: "done", type: "Testing", tags: ["Testing"],
+      summary: "Requirements, test planning and test cases for a vehicle subscription app for Dhaka.",
+      built: "In a team of five, worked on the full quality documentation for a proposed mobile app that lets people subscribe to cars and motorbikes through installments. The report covers about 50 functional requirement modules, quality attributes, project constraints, and a test plan with test levels, out-of-scope items, pass/fail criteria, responsibilities, schedule and risks. I designed five detailed test cases covering payment processing, the vehicle listing and rental marketplace, driver hiring, promotional discounts, and real-time support chat.",
+      result: "Five documented test cases, each with preconditions, steps, test data and expected results.",
+      learned: "Turning written requirements into test cases, deciding what to test and what to leave out, and planning testing in levels from unit to acceptance.",
+      tech: ["Test planning", "Test case design", "Requirements analysis", "Manual testing"], links: { code: "", demo: "", report: "" } },
+    
+    
+    
+      { title: "Exploratory Data Analysis for Cyber Threat Classification", status: "done", type: "Data", tags: ["Data", "Data analysis"],
+      summary: "An R analysis of global cybersecurity incidents from 2015 to 2024 (group project).",
+      built: "In a group of four, explored a dataset of cybersecurity incidents covering attack types, target industries, defense mechanisms, financial loss, affected users and resolution time. My parts: viewing and checking the data structure, helping convert categorical columns to factors, drawing ggplot2 boxplots to look for outliers, writing the min-max normalization function, computing grouped statistics by attack type, and measuring spread (IQR, standard deviation, variance) of resolution time across defense mechanisms.",
+      result: "A Welch t-test found no significant difference in average financial loss between phishing and ransomware (p = 0.654).",
+      learned: "A full exploratory workflow in R: cleaning, scaling, grouping and testing, and interpreting a result that turns out to be null.",
+      tech: ["R", "ggplot2", "dplyr", "Welch t-test"], links: { code: "", demo: "", report: "" } },
+    
+    
+    
+    
+      { title: "Exploring Lexical Overlap Between LLM and Human-AI Interaction Literature", status: "done", type: "Research", tags: ["Research", "NLP", "Machine learning", "Data analysis"],
+      summary: "A text-mining study of whether TF-IDF clustering can tell two related AI research fields apart.",
+      built: "First author of a Data Science course paper. Collected titles and abstracts of 421 papers from arXiv and Semantic Scholar, cleaned and lemmatized the text, built TF-IDF features, reduced them with UMAP, and compared K-Means, hierarchical clustering and HDBSCAN using silhouette score, NMI and ARI. Also analyzed how each cluster mixed the two fields and which keywords dominated.",
+      result: "TF-IDF features could not separate the two fields (low NMI and ARI for every method), showing strong shared vocabulary such as model, language and human. HDBSCAN had the best silhouette score (0.41) but the weakest agreement with the true fields.",
+      learned: "Why the choice of text representation can matter more than the clustering algorithm, and how to report a negative result as a useful baseline.",
+      tech: ["R", "TF-IDF", "UMAP", "K-Means", "HDBSCAN"], links: { code: "", demo: "", report: "" } },
+
+
+    
+    
+
+
+
+      { title: "Pastry Shop Management", status: "done", type: "Desktop", tags: ["Desktop", "Database"],
+      summary: "A C# desktop app for taking customer orders at a pastry shop and keeping stock up to date.",
+      built: "Built a C# desktop application with full CRUD operations. After logging in, the user takes a customer’s order by choosing pastries and adding them to a cart, with discounts applied when available. The stock in the database updates with each order, payments can be recorded, and new pastries can be added to the system.",
+      result: "", learned: "Implementing create, read, update and delete operations against a database, and connecting a desktop interface to stored data in a workflow from cart to payment.",
+      tech: ["C#", ".NET", "MySQL RDBMS"], links: { code: "", demo: "", report: "" } },
+
+
+
+    
+      { title: "Predicting Traffic Accidents in Dhaka City", status: "done", type: "Data", tags: ["Data", "Data analysis"],
+      summary: "A survey-based statistical study of the factors linked to road accidents in Dhaka, with 543 respondents.",
+      built: "A group study by five students. We ran a 20-question online survey over six weeks and collected 543 responses from students, professionals, government employees, business owners, engineers and homemakers. The questions covered road infrastructure, driver behavior, vehicle type, weather, time of day and public awareness. We analyzed the data in SPSS with frequency tables, cross-tabulations, chi-square tests and two linear regression models. My role: [describe your own part, e.g. survey design, data collection, SPSS analysis, writing].",
+      result: "Chi-square tests showed significant links between age and commuting frequency (p = 0.001), age and support for stricter traffic enforcement (p < 0.001), and transport mode and the road type where accidents happen (p = 0.002). In the regression on accident involvement, road type was the only significant predictor (p = 0.017); weather and time of day were not.",
+      learned: "Designing a survey, running chi-square tests and regression in SPSS, and reading significance levels honestly, including factors that turned out not to matter.",
+      tech: ["SPSS", "Survey design", "Chi-square tests", "Linear regression", "Descriptive statistics"], links: { code: "", demo: "", report: "" } },
+    
+      { title: "Hotel Management System", status: "done", type: "Desktop", tags: ["Desktop", "Database"],
+      summary: "A Java application for hotel bookings, customers and services, backed by a SQL database.",
+      built: "Developed a hotel management application in Java to manage bookings, customer details and services. In the database course, designed and implemented the SQL database behind it, handling hotel operations including reservations, billing and customer records.",
+      result: "", learned: "Structuring a multi-feature Java application around real hotel workflows using database tables and relationships.",
+      tech: ["Java", "SQL", "Oracle Database"], links: { code: "", demo: "", report: "" } },
+    
+      
+
+       { title: "Food Delivery System (OOAD)", status: "done", type: "Design", tags: ["Design"],
+      summary: "Object-oriented analysis and design of a food delivery service.",
+      built: "Modeled and developed a structured food delivery system using OOAD principles. Used four types of diagrams (use case, class diagram, sequence diagram, activity diagram) together with flowcharts and class hierarchies to define how the system should work before building it.",
+      result: "", learned: "Planning a system on paper and ER diagram first, with classes, relationships and flows, so the code has a clear structure.",
+      tech: ["OOAD", "UML"], links: { code: "", demo: "", report: "" } }
+  ],
+  /* level: "Comfortable", "Working knowledge" or "Learning". Honest levels are more credible. */
+    skills: [
+    { group: "Web development", items: [["HTML and CSS", "Working knowledge"], ["JavaScript", "Working knowledge"], ["PHP and MySQL", "Comfortable"], ["Multi-user web apps with role-based access", "Comfortable"]] },
+    { group: "Programming and software design", items: [["C++ (including OpenGL graphics)", "Working knowledge"], ["C# and .NET desktop apps", "Comfortable"], ["Java", "Working knowledge"], ["SQL and database design", "Comfortable"], ["Object-oriented design and UML", "Working knowledge"], ["Python", "Working knowledge, AI-assisted"]] },
+    { group: "Data and machine learning", items: [["Data cleaning and exploratory analysis (R, SPSS)", "Comfortable"], ["Statistics: chi-square, t-tests, regression", "Comfortable"], ["NLP for Bangla and English text", "Working knowledge"], ["Deep learning for images (PyTorch, TensorFlow)", "Working knowledge, AI-assisted"], ["Explainability: SHAP, LIME, Grad-CAM", "Working knowledge"]] },
+    { group: "Research and communication", items: [["Academic writing and literature review", "Comfortable"], ["LaTeX and IEEE formatting", "Comfortable"], ["Presenting research at conferences", "Comfortable"]] },
+    { group: "Tools and other skills", items: [["AI-assisted coding: prompting, reviewing, debugging", "Comfortable"], ["Software testing: test planning and test cases", "Working knowledge"], ["AutoCAD (civil and electrical drawings)", "Working knowledge"], ["MS Word and PowerPoint", "Comfortable"]] }
+  ],
+  education: [
+    { title: "BSc in Computer Science and Engineering", place: "American International University-Bangladesh", period: "September 2022 - Ongoing", detail: "CGPA 3.82" },
+    { title: "Higher Secondary Certificate (Science)", place: "Viqarunnisa Noon School and College", period: "2021", detail: "GPA 5.00" },
+    { title: "Secondary School Certificate (Science)", place: "Viqarunnisa Noon School and College", period: "2019", detail: "GPA 5.00" }
+  ],
+  certificates: [
+    { title: "Paper presentations", icon: "🎤", blurb: "Certificates from presenting my research at conferences.",
+      images: [
+        { src: "assets/certificates/presentation-1.jpg", caption: "[Conference name and year]" },
+        { src: "assets/certificates/presentation-2.jpg", caption: "[Conference name and year]" },
+        { src: "assets/certificates/presentation-3.jpg", caption: "[Conference name and year]" }
+      ] },
+    { title: "Dean’s Award", icon: "🏅", blurb: "Awarded for [semester or year].",
+      images: [
+        { src: "assets/certificates/deans-award.jpg", caption: "Dean’s Award, [semester or year]" }
+      ] },
+    { title: "Extra-curricular activities", icon: "⭐", blurb: "Workshops, events and activities outside the classroom.",
+      images: [
+        { src: "assets/certificates/extra-1.jpg", caption: "[Activity name and year]" }
+      ] }
+  ],
+  contact: { message: "I am looking for an internship in [areas]. Email is the fastest way to reach me." }
+};
+
+/* =====================================================================
+   PAGE CODE. You do not need to edit below this line.
+   ===================================================================== */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const isUrl = (s) => /^(https?:\/\/|mailto:)/i.test(s) || /^[\w./-]+\.(pdf|html)$/i.test(s);
+const lk = (label, url) => (url && isUrl(url)) ? '<a class="link" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(label) + "</a>" : "";
+const fld = (label, t) => t ? "<p><b>" + esc(label) + ":</b> " + esc(t) + "</p>" : "";
+const chips = (a) => (a && a.length) ? '<ul class="chips">' + a.map((t) => "<li>" + esc(t) + "</li>").join("") + "</ul>" : "";
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const P = DATA.profile;
+
+function header() {
+  $("hname").textContent = P.name; $("name").textContent = P.name; $("herolead").textContent = P.heroLead;
+  document.title = P.name + " | Portfolio";
+  if (P.cv) $("cvbtn").href = P.cv; else $("cvbtn").hidden = true;
+  $("stats").innerHTML = DATA.stats.map((s) => '<div><strong data-n="' + s.n + '" data-d="' + (s.dec || 0) + '">0</strong><span>' + esc(s.label) + "</span></div>").join("");
+}
+
+function counters() {
+  document.querySelectorAll("[data-n]").forEach((el) => {
+    const n = +el.dataset.n, d = +el.dataset.d;
+    if (REDUCE) { el.textContent = n.toFixed(d); return; }
+    const t0 = performance.now();
+    (function f(t) { const k = Math.min((t - t0) / 1200, 1), e = 1 - Math.pow(1 - k, 3); el.textContent = (n * e).toFixed(d); if (k < 1) requestAnimationFrame(f); })(t0);
+  });
+}
+
+function typed() {
+  const el = $("typed"), roles = P.roles; let i = 0, j = 0, del = false;
+  if (REDUCE) { el.textContent = "I " + roles[0]; return; }
+  (function tick() {
+    const r = "I " + roles[i]; el.textContent = r.slice(0, j);
+    if (!del && j < r.length) { j++; setTimeout(tick, 55); }
+    else if (!del) { del = true; setTimeout(tick, 1500); }
+    else if (j > 2) { j--; setTimeout(tick, 28); }
+    else { del = false; i = (i + 1) % roles.length; setTimeout(tick, 250); }
+  })();
+}
+
+function toggler(e) {
+  const b = e.target.closest(".tog"); if (!b) return;
+  const c = b.closest(".card"), o = c.classList.toggle("open"); b.setAttribute("aria-expanded", o);
+}
+
+function research() {
+  $("researchbody").innerHTML = DATA.research.map((r) => {
+    const cls = /review|prepar/i.test(r.status) ? "review" : "accepted";
+    return '<article class="card rv"><span class="tag ' + cls + '">' + esc(r.status) + "</span><h3>" + esc(r.title) + "</h3>" +
+      '<p class="meta">' + esc(r.venue) + ", " + esc(r.year) + " | " + esc(r.role) + "</p>" +
+      (r.result ? '<div class="result"><small>Key result</small>' + esc(r.result) + "</div>" : "") +
+      '<div class="more"><div>' + fld("Problem", r.problem) + fld("Method", r.method) + fld("Findings", r.findings) + chips(r.keywords) +
+      "<p>" + lk("Paper", r.links.paper) + lk("DOI", r.links.doi) + lk("Slides", r.links.slides) + lk("Code", r.links.code) + "</p></div></div>" +
+      '<button class="tog" type="button" aria-expanded="false">Details</button></article>';
+  }).join("");
+  $("researchbody").addEventListener("click", toggler);
+}
+
+const ST = { done: "Completed", wip: "In progress", proto: "Prototype" };
+let current = "All";
+
+function projects() {
+  $("projectbody").innerHTML = DATA.projects.map((p, i) =>
+    '<article class="card rv" data-i="' + i + '"><span class="tag ' + esc(p.status) + '">' + esc(ST[p.status] || p.status) + "</span><h3>" + esc(p.title) + "</h3>" +
+    '<p class="meta">' + esc(p.type) + " | " + esc(p.summary) + "</p>" + chips(p.tech) +
+    '<div class="more"><div>' + fld("What I built", p.built) + (p.result ? '<div class="result"><small>Result</small>' + esc(p.result) + "</div>" : "") + fld("What I learned", p.learned) +
+    "<p>" + lk("Code", p.links.code) + lk("Live demo", p.links.demo) + lk("Report", p.links.report) + "</p></div></div>" +
+    '<button class="tog" type="button" aria-expanded="false">Details</button></article>').join("");
+  $("projectbody").addEventListener("click", toggler);
+  const tags = ["All"]; DATA.projects.forEach((p) => p.tags.slice(0, 1).forEach((t) => { if (!tags.includes(t)) tags.push(t); }));
+  $("filters").innerHTML = tags.map((t) => '<button type="button" data-t="' + esc(t) + '" aria-pressed="' + (t === "All") + '">' + esc(t) + "</button>").join("");
+  $("filters").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) setFilter(b.dataset.t, false); });
+}
+
+function setFilter(tag, scroll) {
+  current = tag;
+  document.querySelectorAll("#filters button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.t === tag));
+  let shown = 0;
+  document.querySelectorAll("#projectbody .card").forEach((c) => {
+    const ok = tag === "All" || DATA.projects[c.dataset.i].tags.includes(tag); c.hidden = !ok; if (ok) shown++;
+  });
+  if (scroll) $("projects").scrollIntoView({ behavior: REDUCE ? "auto" : "smooth" });
+  return shown;
+}
+
+function skills() {
+  const w = (l) => /compet|comfort/i.test(l) ? 85 : /working/i.test(l) ? 60 : /learn/i.test(l) ? 35 : 50;
+  $("skillbody").innerHTML = DATA.skills.map((g) => "<div><h3>" + esc(g.group) + "</h3>" +
+    g.items.map((s) => '<div class="sk"><div><span>' + esc(s[0]) + "</span><em>" + esc(s[1]) + '</em></div><div class="bar"><i style="--w:' + w(s[1]) + '%"></i></div></div>').join("") + "</div>").join("");
+}
+
+function education() {
+  $("edubody").innerHTML = DATA.education.map((e) => '<article class="card"><h3>' + esc(e.title) + '</h3><p class="meta">' + esc(e.place) + " | " + esc(e.period) + "</p><p>" + esc(e.detail) + "</p></article>").join("");
+}
+
+function about() {
+  $("aboutbody").innerHTML = '<p class="big">' + esc(DATA.about.lead) + "</p>" + DATA.about.paragraphs.map((t) => "<p>" + esc(t) + "</p>").join("");
+  const l = [P.email ? '<a href="mailto:' + esc(P.email) + '">' + esc(P.email) + "</a>" : "", lk("LinkedIn", P.linkedin), lk("GitHub", P.github)].filter(Boolean);
+  $("contactbody").innerHTML = "<p>" + esc(DATA.contact.message) + "</p><p>" + esc(P.location) + "</p><p>" + l.join(" ") + '</p><p><a class="btn" style="color:#2b1c00" href="mailto:' + esc(P.email) + '">Email me</a></p>';
+  $("foot").textContent = "© " + new Date().getFullYear() + " " + P.name;
+}
+
+/* ---- the hero network ---- */
+function network() {
+  const c = $("net"), x = c.getContext("2d"), hero = $("hero");
+  let W, H, dpr, nodes = [], m = { x: -999, y: -999 }, hov = -1, run = true, raf = 0;
+  const top = () => 90, bot = () => H * 0.58;
+  function size() { dpr = Math.min(devicePixelRatio || 1, 2); W = hero.clientWidth; H = hero.clientHeight; c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  function init() { nodes = DATA.nodes.map((t, i) => ({ t, x: 40 + Math.random() * (W - 160), y: top() + Math.random() * (bot() - top()), vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: 4 + (i % 3) * 2 })); }
+  function step() {
+    nodes.forEach((n) => {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 20 || n.x > W - 100) n.vx *= -1;
+      if (n.y < top() || n.y > bot()) n.vy *= -1;
+      const dx = n.x - m.x, dy = n.y - m.y, d = Math.hypot(dx, dy);
+      if (d < 130 && d > 1) { n.x += dx / d * 1.1; n.y += dy / d * 1.1; }
+    });
+  }
+  function draw() {
+    x.clearRect(0, 0, W, H);
+    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+      const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+      if (d < 200) { x.strokeStyle = "rgba(143,211,244," + (0.5 * (1 - d / 200)) + ")"; x.beginPath(); x.moveTo(nodes[i].x, nodes[i].y); x.lineTo(nodes[j].x, nodes[j].y); x.stroke(); }
+    }
+    hov = -1; let best = 28;
+    nodes.forEach((n, i) => { const d = Math.hypot(n.x - m.x, n.y - m.y); if (d < best) { best = d; hov = i; } });
+    nodes.forEach((n, i) => {
+      const on = i === hov;
+      if (on) { x.strokeStyle = "rgba(255,179,71,.6)"; x.beginPath(); x.moveTo(n.x, n.y); x.lineTo(m.x, m.y); x.stroke(); }
+      x.fillStyle = on ? "#ffb347" : "#8fd3f4"; x.beginPath(); x.arc(n.x, n.y, on ? n.r + 3 : n.r, 0, 6.283); x.fill();
+      x.font = (on ? "600 17px " : "400 15px ") + "'Source Sans 3',sans-serif"; x.fillStyle = on ? "#ffb347" : "rgba(235,245,250,.85)"; x.fillText(n.t, n.x + n.r + 7, n.y + 5);
+    });
+    c.style.cursor = hov >= 0 ? "pointer" : "default";
+  }
+  function loop() { step(); draw(); if (run) raf = requestAnimationFrame(loop); }
+  function pos(e) { const r = hero.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; }
+  hero.addEventListener("pointermove", pos);
+  hero.addEventListener("pointerleave", () => { m.x = m.y = -999; });
+  hero.addEventListener("click", (e) => {
+    pos(e); draw();
+    if (hov >= 0) { const t = nodes[hov].t; setFilter(DATA.projects.some((p) => p.tags.includes(t)) ? t : "All", true); }
+  });
+  size(); init();
+  addEventListener("resize", () => { size(); init(); if (REDUCE) draw(); });
+  if (REDUCE) { draw(); return; }
+  new IntersectionObserver((es) => { run = es[0].isIntersecting; if (run) { cancelAnimationFrame(raf); loop(); } }).observe(hero);
+}
+
+
+function certificates() {
+  const list = DATA.certificates, lb = $("lb");
+  let g = 0, k = 0, back = null;
+  $("certbody").innerHTML = list.map((c, i) => {
+    const n = c.images.length;
+    return '<button class="cert" type="button" data-i="' + i + '" aria-haspopup="dialog">' +
+      '<div class="cover"><span>' + esc(c.icon) + "</span>" +
+      (n ? '<img src="' + esc(c.images[0].src) + '" alt="" loading="lazy" onerror="this.remove()">' : "") + "</div>" +
+      '<div class="body"><h3>' + esc(c.title) + '</h3><p class="meta">' + esc(c.blurb) + "</p>" +
+      '<span class="count">' + (n ? n + (n === 1 ? " certificate, click to view" : " certificates, click to view") : "Coming soon") + "</span></div></button>";
+  }).join("");
+  function show() {
+    const c = list[g], im = c.images[k], img = $("lbimg");
+    $("lbtitle").textContent = c.title;
+    $("lbcap").textContent = im.caption || "";
+    img.alt = im.caption || c.title;
+    img.onerror = () => { $("lbcap").textContent = "Image not found: " + im.src + " (check the file name in your assets folder)"; };
+    img.src = im.src;
+    $("lbcount").textContent = (k + 1) + " / " + c.images.length;
+    $("lbprev").disabled = k === 0;
+    $("lbnext").disabled = k === c.images.length - 1;
+  }
+  function openLb(i) {
+    if (!list[i].images.length) return;
+    g = i; k = 0; back = document.activeElement;
+    lb.classList.add("open"); document.body.style.overflow = "hidden";
+    show(); $("lbclose").focus();
+  }
+  function closeLb() { lb.classList.remove("open"); document.body.style.overflow = ""; if (back) back.focus(); }
+  function step(d) {
+    k = Math.max(0, Math.min(list[g].images.length - 1, k + d)); show();
+    if (document.activeElement && document.activeElement.disabled) $("lbclose").focus();
+  }
+  $("certbody").addEventListener("click", (e) => { const b = e.target.closest(".cert"); if (b) openLb(+b.dataset.i); });
+  $("lbclose").addEventListener("click", closeLb);
+  $("lbprev").addEventListener("click", () => step(-1));
+  $("lbnext").addEventListener("click", () => step(1));
+  lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", (e) => {
+    if (!lb.classList.contains("open")) return;
+    if (e.key === "Escape") closeLb();
+    else if (e.key === "ArrowRight") step(1);
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "Tab") {
+      const f = [$("lbclose"), $("lbprev"), $("lbnext")].filter((x) => !x.disabled);
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+}
+
+
+function reveal() {
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+  const bar = $("bar");
+  addEventListener("scroll", () => { bar.style.width = (scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight) * 100) + "%"; }, { passive: true });
+}
+
+function placeholders() {
+  if (!HIGHLIGHT_PLACEHOLDERS) return;
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: (n) => n.parentNode.closest("script,style,header") ? 2 : 1 }), list = [];
+  while (w.nextNode()) if (/\[[^\]]*\]/.test(w.currentNode.nodeValue)) list.push(w.currentNode);
+  list.forEach((n) => {
+    const f = document.createDocumentFragment();
+    n.nodeValue.split(/(\[[^\]]*\])/).forEach((s) => {
+      if (/^\[[^\]]*\]$/.test(s)) { const k = document.createElement("mark"); k.className = "ph"; k.textContent = s; f.appendChild(k); } else f.appendChild(document.createTextNode(s));
+    });
+    n.parentNode.replaceChild(f, n);
+  });
+}
+
+header(); about(); research(); projects(); skills(); education(); certificates();
+placeholders(); network(); typed(); counters(); reveal();
+</script>
+</body>
+</html>
