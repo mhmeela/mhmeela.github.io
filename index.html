@@ -27,7 +27,6 @@ header nav a:hover{color:var(--link);text-decoration:underline}
 #bar{height:3px;width:0;background:var(--ink)}
 /* hero */
 .hero{position:relative;min-height:100svh;background:radial-gradient(1100px 600px at 80% 0%,var(--butter-deep) 0%,transparent 60%),var(--butter);color:var(--ink);display:flex;align-items:flex-end;overflow:hidden}
-#net{position:absolute;inset:0;width:100%;height:100%}
 .hero .in{position:relative;z-index:1;pointer-events:none;max-width:980px;margin:0 auto;width:100%;padding:6rem 1.5rem 2.5rem}
 .hero a,.hero button{pointer-events:auto}
 .hero h1{font:800 clamp(2.6rem,8vw,5.8rem)/.98 var(--display);margin:0 0 .8rem;letter-spacing:-.02em}
@@ -105,6 +104,40 @@ h3{font:800 1.2rem/1.3 var(--display);margin:.3rem 0 .2rem}
 @media (max-width:760px){.certs{grid-template-columns:minmax(0,1fr)}}
 .about p,.card p,.more p,.result,#contactbody p{text-align:justify;text-justify:inter-word;-webkit-hyphens:auto;hyphens:auto}
 .card p.meta{text-align:left;hyphens:none}
+/* ===== upgrade pack ===== */
+
+
+.w{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;opacity:0;transform:translateY(.6em);animation:rise .7s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*35ms)}
+@keyframes rise{to{opacity:1;transform:none}}
+.card{position:relative}
+.card>*{position:relative}
+.card::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(260px circle at var(--cx,50%) var(--cy,0%),rgba(255,233,122,.45),transparent 70%);opacity:0;transition:opacity .25s;pointer-events:none}
+.card:hover::before{opacity:1}
+.card.rv{transition:opacity .6s calc(var(--n,0)*80ms),transform .6s calc(var(--n,0)*80ms),border-color .2s}
+.card.pop{animation:fpop .4s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fpop{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+.wrap h2::after{transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.wrap.seen h2::after{transform:scaleX(1)}
+header nav a{position:relative}
+header nav a:hover{text-decoration:none}
+header nav a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .25s}
+header nav a.on::after,header nav a:hover::after{transform:scaleX(1)}
+#up{position:fixed;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom,0px));width:48px;height:48px;border:0;border-radius:50%;background:var(--ink);color:var(--butter);font:800 1.2rem var(--display);cursor:pointer;z-index:30;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .3s,transform .3s}
+#up.show{opacity:1;transform:none;pointer-events:auto}
+#up svg{position:absolute;inset:2px;width:44px;height:44px;transform:rotate(-90deg)}
+#up .trk{fill:none;stroke:rgba(255,247,180,.25);stroke-width:3}
+#up .prg{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;stroke-dasharray:119.4;stroke-dashoffset:119.4}
+#lb.open{animation:fadein .25s}
+#lb.open .lb-img{animation:zoomin .3s cubic-bezier(.2,.8,.2,1)}
+@keyframes fadein{from{opacity:0}}
+@keyframes zoomin{from{opacity:0;transform:scale(.94)}}
+.conf{position:fixed;top:-14px;width:9px;height:14px;border-radius:2px;z-index:60;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),105vh) rotate(var(--r))}}
+#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,20px);background:var(--ink);color:var(--butter);padding:.6rem 1.1rem;border-radius:99px;opacity:0;transition:opacity .3s,transform .3s;z-index:70;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.ch{opacity:1;transform:none;animation:none}.card.pop,#lb.open,#lb.open .lb-img{animation:none}.wrap h2::after{transform:none;transition:none}#up{transition:none}#glow{display:none}}
+#glow{position:fixed;top:0;left:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;background:radial-gradient(circle,rgba(227,181,5,.30),rgba(255,233,122,.18) 45%,transparent 70%);pointer-events:none;z-index:-1;opacity:0;transition:opacity .35s;will-change:transform}
 mark.ph{background:#ffc9b8;color:#5a1f0a;padding:0 .15em;border-radius:3px}
 footer{max-width:980px;margin:4rem auto 0;padding:1.5rem;color:var(--muted);font-size:.93rem;border-top:1px solid var(--line)}
 @media (max-width:760px){.grid,.skills{grid-template-columns:minmax(0,1fr)}header nav{display:none}}
@@ -113,18 +146,18 @@ footer{max-width:980px;margin:4rem auto 0;padding:1.5rem;color:var(--muted);font
 </style>
 </head>
 <body>
+  <div id="glow" aria-hidden="true"></div>
 <header><div class="in"><b id="hname"></b>
 <nav><a href="#about">About</a><a href="#research">Research</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#certificates">Certificates</a><a href="#contact">Contact</a></nav></div><div id="bar"></div></header>
 
 <section class="hero" id="hero">
-  <canvas id="net" aria-hidden="true"></canvas>
   <div class="in">
     <h1 id="name"></h1>
     <p class="roleline"><span id="typed"></span><span class="caret" aria-hidden="true"></span></p>
     <p class="lead" id="herolead"></p>
-    <div><a class="btn" href="#research">See my research</a><a class="btn ghost" id="cvbtn" href="#">Download CV</a></div>
+    <div><a class="btn ghost" id="cvbtn" href="#">Download CV</a></div>
     <div class="stats" id="stats"></div>
-    <p class="hint">Move your pointer over the network. Click a topic to filter my projects.</p>
+    <!--<p class="hint">Move your pointer over the network. Click a topic to filter my projects.</p>-->
   </div>
 </section>
 
@@ -139,7 +172,7 @@ footer{max-width:980px;margin:4rem auto 0;padding:1.5rem;color:var(--muted);font
 </main>
 <footer id="foot"></footer>
 
-
+<button id="up" type="button" aria-label="Back to top"><svg viewBox="0 0 44 44" aria-hidden="true"><circle class="trk" cx="22" cy="22" r="19"/><circle class="prg" id="ring" cx="22" cy="22" r="19"/></svg><span aria-hidden="true">↑</span></button>
 <div id="lb" role="dialog" aria-modal="true" aria-labelledby="lbtitle">
   <button class="lb-btn lb-close" id="lbclose" type="button">Close</button>
   <div class="lb-box">
@@ -166,29 +199,27 @@ const HIGHLIGHT_PLACEHOLDERS = true;
 const DATA = {
   profile: {
     name: "Mishkatul Hoque Meela",
-    roles: ["research on various domains", "develop desktop apps and websites", "write papers and present them"],
-    heroLead: "CSE undergraduate with research experience in ML and AI in different subdomains, and hands-on desktop application and web development experience. Seeking an internship to apply ML and web skills to real problems.",
+    roles: ["research on various domains", "develop desktop apps and websites", "write research papers and present them"],
+    heroLead: "CSE undergraduate with research experience in ML and AI in different subdomains, and hands-on desktop application and web development.",
     cv: "assets/CV-Mishkatul Hoque Meela.pdf",
     location: "Dhaka, Bangladesh",
     email: "mishkatulhoquemeela@gmail.com",
     linkedin: "https://www.linkedin.com/in/mishkatulhoque-meela",
-    github: "[https://github.com/your-username]"
+    /*github: "https://github.com/your-username"*/
   },
   /* counters in the hero: n = number, dec = decimals (optional) */
   stats: [
     { n: 3.82, dec: 2, label: "CGPA" },
     { n: 3, label: "Dean's Award" },
     { n: 2, label: "papers in publication proceedings" },
-    { n: 3, label: "conference presentations given" }
+    /*{ n: 3, label: "conference presentations given" }*/
   ],
   nodes: ["NLP", "Bangla", "Healthcare", "Medical imaging", "Explainable AI", "Machine learning", "Web", "Agriculture", "Data analysis", "Research", "Sustainability", "Recommendation"],
     about: {
-    lead: "I’m a final-year CSE student at AIUB. I like research, building web pages, Bangla poetry and a good game, and I’m always trying to learn the next thing.",
+    lead: "I’m a final-year CSE student at AIUB. I like research, building web pages, games and I’m always trying to explore and learn the next thing.",
     paragraphs: [
-      "I got into research because of two of my teachers. Both are women whose work is recognized internationally, and both work incredibly hard. Watching them build careers while also looking after life at home made me think: if they can do all that, I can at least try. I was lucky to work under both of them, and I’m still grateful.",
-      "Another teacher is the reason I love web development. He taught code slowly and calmly, and he was so excited about it that it was impossible not to catch it. And I presented a paper at an IEEE conference because of the patience of my Data Science instructor, who kept guiding me until the work was ready. They taught me to keep trying and never lose hope, and I try to do that every day.",
-      "I’ll be honest about how I work: I’m not a coding wizard. I plan the approach, understand the data, run the experiments and make sure I can explain every result. I use AI tools to write code faster, then I read it, test it and fix it. HTML, CSS and JavaScript are where I feel most at home. So far, that has meant two papers in conference proceedings and three conference presentations.",
-      "Outside of studies I read a lot, mostly Bangla classic literature and poetry, and I play games on both my phone and my PC. Not an obvious pair, but I enjoy both. Right now I’m looking for an internship in web development, data and AI, or research, whichever teaches me the most. After graduation I’m keeping industry and academia both open. What I know for sure is that I don’t want a perfect, repeating routine. I want days that feel a little different from the one before, and plenty to learn."
+      "I’m not much of a coding geek, but surely a stubborn problem-solver. Once a problem is in my hands, I can’t rest until it’s solved and I’m a perfectionist about it even if the work is not super flashy. Web development and Research are what I enjoy most. Till now, I have built a multi-user event website in PHP and MySQL, made desktop apps in C# and Java, an OpenGL scene in C++, and done my research work in Python. Moving between all of these taught me that I pick things up quickly, and that learning new things excite me. I will happily learn whatever a project needs. Outside of studies I read a lot, mostly Bangla classic literature and poetry, and I play games on both my phone and my PC. Not an obvious pair, but I enjoy both.",
+      "Right now I’m looking for an internship in web development, desktop application development, data analysis and AI/ML, or research, whichever teaches me the most. After graduation I’m keeping industry and academia both open. What I know for sure is that I do not want a perfect, repeating routine. I want days that feel a little different from the one before, with plenty to learn."
     ]
   
   },
@@ -217,35 +248,36 @@ const DATA = {
     
     
     
-      { title: "BanGEC: QLoRA fine-tuning and hallucination guarding for low-resource Bangla grammatical error correction", venue: "IEEE 3rd INTERNATIONAL CONFERENCE ON COMPUTING, APPLICATIONS AND SYSTEMS (COMPAS 2026), University of Dhaka, Bangladesh", year: "9-10 October, 2026", status: "Accepted", role: "Author and presenter",
-      problem: "Grammatical Error Correction (GEC) of Bangla is still a difficult task because of the lack of annotated resources and the diversity of orthographic, phonological and spacing errors.", method: "Build and evaluate a QLoRA-based Bangla GEC pipeline with an output hallucination guard, measured by exact match.", result: "On the synthetic BanGEC benchmark, QLoRA fine-tuning lifts Exact Match from 0.2% to 43.9%, and the guard reverts potentially low-fidelity or hallucinated outputs without changing EM (Exact Match).", keywords: ["Grammatical Error Correction", "Low-Resource NLP", "QLoRA", "Bangla NLP", "Hallucination Detection", "Parameter-Efficient Fine-Tuning"], links: { paper: "", slides: "", code: "", doi: "" } },
-      
-      
-      
-      { title: "AdaptRepair-Vision: Empirically Bounded-Risk Adaptive Repair for Corruption-Shifted Image Classification", venue: "International Conference on Innovations in Science, Engineering and Technology 2026 (ICISET 2026), IIUC, Kumira, Chattogram, Bangladesh", year: "November 8-10, 2026", status: "Accepted", role: "Co-author",
-      problem: "Under corruption shift, frozen classifiers make errors that could be recovered. Rejecting inputs leaves them unresolved, and naive repair can turn correct predictions into wrong ones.", method: "Architecture: accept, repair or defer. It has a post-hoc adaptive repair module (the backbone is never updated) and two separate decisions: 1)try a repair: reliability evidence, 2)accept a repair: independent verifier. For the design, it has four safeguards around every repair and they are: Normalized evidence, Calibrated router, Bounded repair, Independent verifier", result: "On the synthetic BanGEC benchmark, QLoRA fine-tuning lifts Exact Match from 0.2% to 43.9%, and the guard reverts potentially low-fidelity or hallucinated outputs without changing EM (Exact Match).", keywords: ["corruption robustness", "selective prediction", "post-hoc repair", "CIFAR-C", "Hallucination Detection"], links: { paper: "", slides: "", code: "", doi: "" } }
-  
+         { title: "BanGEC: QLoRA fine-tuning and hallucination guarding for low-resource Bangla grammatical error correction", venue: "IEEE 3rd International Conference on Computing, Applications and Systems (COMPAS 2026), University of Dhaka, Bangladesh", year: "9–10 October 2026", status: "Accepted", role: "Author and presenter",
+      problem: "Grammatical error correction (GEC) for Bangla is still difficult because annotated resources are scarce and errors are varied: spelling, pronunciation-based confusions and spacing. Existing work mostly builds datasets or detects errors, without a full correction pipeline that also guards against hallucinated output.",
+      method: "Built a reproducible synthetic benchmark of 9,976 sentence pairs with seven phonologically motivated error types, fine-tuned Qwen2.5-1.5B-Instruct with QLoRA on a single consumer GPU, and added a training-free output guard that reverts low-fidelity corrections to the original input. Compared against identity, rule-based, zero-shot and mT5-small baselines using exact match as the main metric.",
+      result: "QLoRA fine-tuning raised exact match from 0.2% to 43.9% on the held-out synthetic test set, and the guard improved the similarity score further without changing exact match.",
+      findings: "The guard never rejected a correct output (0 of 877) and reverted 590 of the 1,119 incorrect ones. A much smaller mT5-small model reached similar exact match (43.2%), which suggests that model design can matter as much as size for copy-heavy correction tasks. All results are on a synthetic benchmark, and testing on natural writing errors is left for future work.",
+      keywords: ["Grammatical Error Correction", "Low-Resource NLP", "QLoRA", "Bangla NLP", "Hallucination Detection", "Parameter-Efficient Fine-Tuning"], links: { paper: "", slides: "", code: "", doi: "" } },
+
+    { title: "AdaptRepair-Vision: Empirically Bounded-Risk Adaptive Repair for Corruption-Shifted Image Classification", venue: "5th International Conference on Innovations in Science, Engineering and Technology (ICISET 2026), IIUC, Kumira, Chattogram, Bangladesh", year: "8–10 November 2026", status: "Accepted", role: "Co-author",
+      problem: "Common image corruptions such as blur, noise and weather can sharply lower a classifier’s accuracy, and retraining a deployed model is often impractical. Rejecting uncertain inputs leaves recoverable errors unresolved, while careless repair can turn correct predictions into wrong ones.",
+      method: "A post-hoc accept–repair–defer framework that keeps the classifier frozen. Reliability evidence decides whether to try a repair, a bounded feature repair is proposed for candidate classes, and an independent verifier with a calibrated router decides whether to accept it. Evaluated on CIFAR-10-C and CIFAR-100-C with ResNet-50 and ConvNeXt-Tiny over five seeds, in a conservative and a gain-oriented mode.",
+      result: "In conservative mode, harmful accepted repairs stayed between 0.072% and 0.729%, with near-neutral net accuracy change (−0.012 to +0.276 percentage points). In gain-oriented mode, net gains were +0.208 to +0.692 percentage points under the empirical risk caps.",
+      findings: "The largest gain (+0.692 points, CIFAR-100 with ResNet-50) came with 95.2% repair coverage but only 35.9% accepted-repair precision, a clear coverage–precision trade-off. The risk limit is an empirical operating budget, not a formal guarantee, and the results hold only for the datasets, backbones and settings tested.",
+      keywords: ["corruption robustness", "selective prediction", "post-hoc repair", "risk budget", "uncertainty", "CIFAR-C"], links: { paper: "", slides: "", code: "", doi: "" } }
   
   
     ],
   /* status: "done", "wip" or "proto". tags: used for filters and network nodes.
      The first tag is also its filter group (Research, Web or Desktop). */
   projects: [
-    { title: "PCOSNet: A Lightweight and Explainable Framework for Robust PCOS Detection", status: "accepted", type: "Research", tags: ["Research", "Healthcare", "Medical imaging", "Machine learning", "Explainable AI"],
+    { title: "PCOSNet: A Lightweight and Explainable Framework for Robust PCOS Detection", status: "In Progress", type: "Research", tags: ["Research", "Healthcare", "Medical imaging", "Machine learning", "Explainable AI"],
       summary: "A compact, explainable deep learning model for detecting PCOS from ovarian ultrasound images.",
-      built: "A lightweight attention-based convolutional network for screening PCOS in ultrasound images, built for clinics with limited computing power. The work covers image preprocessing, handling class imbalance, comparison against standard pretrained networks, and Grad-CAM++ visual explanations that show which regions drive each prediction. My role: [describe your own contribution, e.g. experiments, analysis, writing].",
+      built: "A lightweight attention-based convolutional network for screening PCOS in ultrasound images, built for clinics with limited computing power. The work covers image preprocessing, handling class imbalance, comparison against standard pretrained networks, and Grad-CAM++ visual explanations that show which regions drive each prediction. ",
       result: "About 2 million parameters, roughly 64 times smaller than VGG16, while staying competitive with much larger models. Full results will appear in the IEEE Xplore paper.",
-      learned: "Designing for efficiency instead of only accuracy, evaluating on a leakage-controlled split, and using explainability to check that a medical model looks at the right regions.",
-      tech: ["Python", "PyTorch", "Grad-CAM++"], links: { code: "", demo: "", report: "" } },
-    
-    
-      { title: "AlmoX: Explainable Almond Leaf Disease Classification in Real-World Conditions", status: "accepted", type: "Research", tags: ["Research", "Agriculture", "Sustainability", "Machine learning", "Explainable AI"],
+      tech: ["Python", "PyTorch", "Grad-CAM++", "Scientific writing", "IEEE format"], links: { code: "", demo: "", report: "" } },
+
+    { title: "AlmoX: Explainable Almond Leaf Disease Classification in Real-World Conditions", status: "In Progress", type: "Research", tags: ["Research", "Agriculture", "Sustainability", "Machine learning", "Explainable AI"],
       summary: "Disease classification for almond leaves photographed on real farms, deployed as a web tool.",
-      built: "A deep learning framework (EfficientNetV2-S with transfer learning) that classifies almond leaf diseases from field photos taken under natural lighting and cluttered backgrounds. It includes cross-validation, calibration checks, Grad-CAM explanations, and a web application where users upload a leaf image and get a diagnosis with a visual explanation. My role: [describe your own contribution, e.g. experiments, web app, writing].",
+      built: "A deep learning framework (EfficientNetV2-S with transfer learning) that classifies almond leaf diseases from field photos taken under natural lighting and cluttered backgrounds. It includes cross-validation, calibration checks, Grad-CAM explanations, and a web application where users upload a leaf image and get a diagnosis with a visual explanation. ",
       result: "96.76% accuracy on a held-out test set of real field images across eight classes. More detail will appear in the IEEE Xplore paper.",
-      learned: "Working with messy real-world data instead of lab images, checking that a model’s confidence can be trusted, and turning a trained model into a tool people can actually use.",
-      tech: ["Python", "EfficientNetV2-S", "Grad-CAM", "Gradio", "Hugging Face Spaces"], links: { code: "", demo: "", report: "" } },
-    
+      tech: ["Python", "PyTorch", "Grad-CAM", "Flask", "HTML/CSS/JS", "Scientific writing", "IEEE format"], links: { code: "", demo: "", report: "" } },
     
     { title: "Event Management Website", status: "done", type: "Web", tags: ["Web"],
       summary: "A role-based event platform for admins, event creators and attendees.",
@@ -313,7 +345,7 @@ const DATA = {
     
       { title: "Predicting Traffic Accidents in Dhaka City", status: "done", type: "Data", tags: ["Data", "Data analysis"],
       summary: "A survey-based statistical study of the factors linked to road accidents in Dhaka, with 543 respondents.",
-      built: "A group study by five students. We ran a 20-question online survey over six weeks and collected 543 responses from students, professionals, government employees, business owners, engineers and homemakers. The questions covered road infrastructure, driver behavior, vehicle type, weather, time of day and public awareness. We analyzed the data in SPSS with frequency tables, cross-tabulations, chi-square tests and two linear regression models. My role: [describe your own part, e.g. survey design, data collection, SPSS analysis, writing].",
+      built: "We ran a 20-question online survey over six weeks and collected 543 responses from students, professionals, government employees, business owners, engineers and homemakers. The questions covered road infrastructure, driver behavior, vehicle type, weather, time of day and public awareness. All data were analyzed in SPSS with frequency tables, cross-tabulations, chi-square tests and two linear regression models.",
       result: "Chi-square tests showed significant links between age and commuting frequency (p = 0.001), age and support for stricter traffic enforcement (p < 0.001), and transport mode and the road type where accidents happen (p = 0.002). In the regression on accident involvement, road type was the only significant predictor (p = 0.017); weather and time of day were not.",
       learned: "Designing a survey, running chi-square tests and regression in SPSS, and reading significance levels honestly, including factors that turned out not to matter.",
       tech: ["SPSS", "Survey design", "Chi-square tests", "Linear regression", "Descriptive statistics"], links: { code: "", demo: "", report: "" } },
@@ -348,20 +380,22 @@ const DATA = {
   certificates: [
     { title: "Paper presentations", icon: "🎤", blurb: "Certificates from presenting my research at conferences.",
       images: [
-        { src: "assets/certificates/presentation-1.jpg", caption: "[Conference name and year]" },
-        { src: "assets/certificates/presentation-2.jpg", caption: "[Conference name and year]" },
-        { src: "assets/certificates/presentation-3.jpg", caption: "[Conference name and year]" }
+        { src: "assets/certificates/ICTSE2025.jpg", caption: "ICTSE 2025" },
+        { src: "assets/certificates/ICSD2026.jpg", caption: "ICSD 2026" },
+        { src: "assets/certificates/COMPAS2026.jpg", caption: "COMPAS 2026" }
       ] },
-    { title: "Dean’s Award", icon: "🏅", blurb: "Awarded for [semester or year].",
+    /*{ title: "Dean’s Award", icon: "🏅", blurb: "Awarded for [semester or year].",
       images: [
         { src: "assets/certificates/deans-award.jpg", caption: "Dean’s Award, [semester or year]" }
-      ] },
+      ] },*/
     { title: "Extra-curricular activities", icon: "⭐", blurb: "Workshops, events and activities outside the classroom.",
       images: [
-        { src: "assets/certificates/extra-1.jpg", caption: "[Activity name and year]" }
+        { src: "assets/certificates/poster.jpg", caption: "Science Poster Contest - 2022" },
+        { src: "assets/certificates/ndcvnc.jpg", caption: "Developing Youth Academic Skills - 2019" },
+        { src: "assets/certificates/britishcouncil.jpg", caption: "British Council Book Reading Competition - 2017" }
       ] }
   ],
-  contact: { message: "I am looking for an internship in [areas]. Email is the fastest way to reach me." }
+  contact: { message: "Email is the fastest way to reach me." }
 };
 
 /* =====================================================================
@@ -387,8 +421,12 @@ function counters() {
   document.querySelectorAll("[data-n]").forEach((el) => {
     const n = +el.dataset.n, d = +el.dataset.d;
     if (REDUCE) { el.textContent = n.toFixed(d); return; }
-    const t0 = performance.now();
-    (function f(t) { const k = Math.min((t - t0) / 1200, 1), e = 1 - Math.pow(1 - k, 3); el.textContent = (n * e).toFixed(d); if (k < 1) requestAnimationFrame(f); })(t0);
+    const t0 = performance.now() + 300;
+    (function f(t) {
+      const k = Math.max(0, Math.min((t - t0) / 1800, 1)), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = (n * e).toFixed(d);
+      if (k < 1) requestAnimationFrame(f);
+    })(performance.now());
   });
 }
 
@@ -429,7 +467,7 @@ function projects() {
   $("projectbody").innerHTML = DATA.projects.map((p, i) =>
     '<article class="card rv" data-i="' + i + '"><span class="tag ' + esc(p.status) + '">' + esc(ST[p.status] || p.status) + "</span><h3>" + esc(p.title) + "</h3>" +
     '<p class="meta">' + esc(p.type) + " | " + esc(p.summary) + "</p>" + chips(p.tech) +
-    '<div class="more"><div>' + fld("What I built", p.built) + (p.result ? '<div class="result"><small>Result</small>' + esc(p.result) + "</div>" : "") + fld("What I learned", p.learned) +
+    '<div class="more"><div>' + fld("Summary", p.built) + (p.result ? '<div class="result"><small>Key results</small>' + esc(p.result) + "</div>" : "") + fld("What I learned", p.learned) +
     "<p>" + lk("Code", p.links.code) + lk("Live demo", p.links.demo) + lk("Report", p.links.report) + "</p></div></div>" +
     '<button class="tog" type="button" aria-expanded="false">Details</button></article>').join("");
   $("projectbody").addEventListener("click", toggler);
@@ -462,55 +500,11 @@ function education() {
 function about() {
   $("aboutbody").innerHTML = '<p class="big">' + esc(DATA.about.lead) + "</p>" + DATA.about.paragraphs.map((t) => "<p>" + esc(t) + "</p>").join("");
   const l = [P.email ? '<a href="mailto:' + esc(P.email) + '">' + esc(P.email) + "</a>" : "", lk("LinkedIn", P.linkedin), lk("GitHub", P.github)].filter(Boolean);
-  $("contactbody").innerHTML = "<p>" + esc(DATA.contact.message) + "</p><p>" + esc(P.location) + "</p><p>" + l.join(" ") + '</p><p><a class="btn" style="color:#2b1c00" href="mailto:' + esc(P.email) + '">Email me</a></p>';
+  $("contactbody").innerHTML = "<p>" + esc(DATA.contact.message) + "</p><p>" + esc(P.location) + "</p><p>" + l.join(" ") + '</p><p><a class="btn" href="mailto:' + esc(P.email) + '">Email me</a></p>';
   $("foot").textContent = "© " + new Date().getFullYear() + " " + P.name;
 }
 
-/* ---- the hero network ---- */
-function network() {
-  const c = $("net"), x = c.getContext("2d"), hero = $("hero");
-  let W, H, dpr, nodes = [], m = { x: -999, y: -999 }, hov = -1, run = true, raf = 0;
-  const top = () => 90, bot = () => H * 0.58;
-  function size() { dpr = Math.min(devicePixelRatio || 1, 2); W = hero.clientWidth; H = hero.clientHeight; c.width = W * dpr; c.height = H * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
-  function init() { nodes = DATA.nodes.map((t, i) => ({ t, x: 40 + Math.random() * (W - 160), y: top() + Math.random() * (bot() - top()), vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: 4 + (i % 3) * 2 })); }
-  function step() {
-    nodes.forEach((n) => {
-      n.x += n.vx; n.y += n.vy;
-      if (n.x < 20 || n.x > W - 100) n.vx *= -1;
-      if (n.y < top() || n.y > bot()) n.vy *= -1;
-      const dx = n.x - m.x, dy = n.y - m.y, d = Math.hypot(dx, dy);
-      if (d < 130 && d > 1) { n.x += dx / d * 1.1; n.y += dy / d * 1.1; }
-    });
-  }
-  function draw() {
-    x.clearRect(0, 0, W, H);
-    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
-      const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
-      if (d < 200) { x.strokeStyle = "rgba(143,211,244," + (0.5 * (1 - d / 200)) + ")"; x.beginPath(); x.moveTo(nodes[i].x, nodes[i].y); x.lineTo(nodes[j].x, nodes[j].y); x.stroke(); }
-    }
-    hov = -1; let best = 28;
-    nodes.forEach((n, i) => { const d = Math.hypot(n.x - m.x, n.y - m.y); if (d < best) { best = d; hov = i; } });
-    nodes.forEach((n, i) => {
-      const on = i === hov;
-      if (on) { x.strokeStyle = "rgba(255,179,71,.6)"; x.beginPath(); x.moveTo(n.x, n.y); x.lineTo(m.x, m.y); x.stroke(); }
-      x.fillStyle = on ? "#ffb347" : "#8fd3f4"; x.beginPath(); x.arc(n.x, n.y, on ? n.r + 3 : n.r, 0, 6.283); x.fill();
-      x.font = (on ? "600 17px " : "400 15px ") + "'Source Sans 3',sans-serif"; x.fillStyle = on ? "#ffb347" : "rgba(235,245,250,.85)"; x.fillText(n.t, n.x + n.r + 7, n.y + 5);
-    });
-    c.style.cursor = hov >= 0 ? "pointer" : "default";
-  }
-  function loop() { step(); draw(); if (run) raf = requestAnimationFrame(loop); }
-  function pos(e) { const r = hero.getBoundingClientRect(); m.x = e.clientX - r.left; m.y = e.clientY - r.top; }
-  hero.addEventListener("pointermove", pos);
-  hero.addEventListener("pointerleave", () => { m.x = m.y = -999; });
-  hero.addEventListener("click", (e) => {
-    pos(e); draw();
-    if (hov >= 0) { const t = nodes[hov].t; setFilter(DATA.projects.some((p) => p.tags.includes(t)) ? t : "All", true); }
-  });
-  size(); init();
-  addEventListener("resize", () => { size(); init(); if (REDUCE) draw(); });
-  if (REDUCE) { draw(); return; }
-  new IntersectionObserver((es) => { run = es[0].isIntersecting; if (run) { cancelAnimationFrame(raf); loop(); } }).observe(hero);
-}
+
 
 
 function certificates() {
@@ -586,8 +580,87 @@ function placeholders() {
   });
 }
 
+
+
+/* ===== upgrade pack ===== */
+function splitName() {
+  const h = $("name"), t = h.textContent; let i = 0;
+  h.setAttribute("aria-label", t); h.textContent = "";
+  t.split(" ").forEach((word, wi, a) => {
+    const s = document.createElement("span"); s.className = "w"; s.setAttribute("aria-hidden", "true");
+    [...word].forEach((c) => { const l = document.createElement("span"); l.className = "ch"; l.style.setProperty("--i", i++); l.textContent = c; s.appendChild(l); });
+    h.appendChild(s); if (wi < a.length - 1) h.appendChild(document.createTextNode(" "));
+  });
+}
+
+
+
+function glow() {
+  if (REDUCE || matchMedia("(hover: none)").matches) return;
+  const g = $("glow"), about = $("about"); let raf = 0, px = 0, py = 0, on = false;
+  addEventListener("pointermove", (e) => {
+    px = e.clientX; py = e.clientY; on = py >= about.getBoundingClientRect().top;
+    if (!raf) raf = requestAnimationFrame(() => { raf = 0; g.style.opacity = on ? 1 : 0; g.style.transform = "translate(" + px + "px," + py + "px)"; });
+  }, { passive: true });
+  document.documentElement.addEventListener("mouseleave", () => { g.style.opacity = 0; });
+}
+
+const _setFilter = setFilter;
+setFilter = function (t, s) {
+  const r = _setFilter(t, s);
+  document.querySelectorAll("#topics button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.t === t));
+  if (!REDUCE) document.querySelectorAll("#projectbody .card:not([hidden])").forEach((c, i) => {
+    c.classList.remove("pop"); void c.offsetWidth; c.style.animationDelay = i * 40 + "ms"; c.classList.add("pop");
+  });
+  return r;
+};
+
+function polish() {
+  splitName();
+  document.querySelectorAll(".stats div").forEach((d, i) => d.style.setProperty("--k", i));
+  document.querySelectorAll(".stack .card.rv,.grid .card.rv").forEach((c, i) => c.style.setProperty("--n", i % 4));
+  document.addEventListener("pointermove", (e) => {
+    const c = e.target.closest && e.target.closest(".card"); if (!c) return;
+    const r = c.getBoundingClientRect(); c.style.setProperty("--cx", e.clientX - r.left + "px"); c.style.setProperty("--cy", e.clientY - r.top + "px");
+  }, { passive: true });
+  const seen = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("seen"); seen.unobserve(e.target); } }), { threshold: .2 });
+  document.querySelectorAll(".wrap").forEach((w) => seen.observe(w));
+  const links = [...document.querySelectorAll("header nav a")];
+  const spy = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) links.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id));
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  links.forEach((a) => { const s = document.querySelector(a.getAttribute("href")); if (s) spy.observe(s); });
+  const up = $("up"), ring = $("ring");
+  up.addEventListener("click", () => scrollTo({ top: 0, behavior: REDUCE ? "auto" : "smooth" }));
+  addEventListener("scroll", () => {
+    const p = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    ring.style.strokeDashoffset = 119.4 * (1 - p); up.classList.toggle("show", scrollY > 600);
+  }, { passive: true });
+}
+
+function easter() {
+  const seq = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"]; let p = 0;
+  const toast = document.createElement("div"); toast.id = "toast"; toast.setAttribute("role", "status"); document.body.appendChild(toast);
+  addEventListener("keydown", (e) => {
+    if ($("lb").classList.contains("open")) return;
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    p = k === seq[p] ? p + 1 : (k === seq[0] ? 1 : 0);
+    if (p < seq.length) return;
+    p = 0; toast.textContent = "Achievement unlocked: Konami Code"; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2800);
+    if (REDUCE) return;
+    const cols = ["#FFE97A", "#E3B505", "#ffb347", "#2b2410"];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement("i"); c.className = "conf";
+      c.style.cssText = "left:" + Math.random() * 100 + "vw;background:" + cols[i % 4] + ";--dx:" + (Math.random() * 160 - 80) + "px;--r:" + (Math.random() * 720 - 360) + "deg;animation-delay:" + Math.random() * .4 + "s;animation-duration:" + (1.6 + Math.random() * 1.4) + "s";
+      document.body.appendChild(c); setTimeout(() => c.remove(), 3600);
+    }
+  });
+}
+
+
+
 header(); about(); research(); projects(); skills(); education(); certificates();
-placeholders(); network(); typed(); counters(); reveal();
+placeholders(); glow(); typed(); counters(); reveal(); polish(); easter();
 </script>
 </body>
 </html>
